@@ -1,4 +1,4 @@
-package com.example.knightsofthegloom.object;
+package com.example.knightsofthegloom.gamepanel;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import androidx.core.content.ContextCompat;
 
 import com.example.knightsofthegloom.R;
+import com.example.knightsofthegloom.gameobject.Player;
 
 public class HealthBar {
 

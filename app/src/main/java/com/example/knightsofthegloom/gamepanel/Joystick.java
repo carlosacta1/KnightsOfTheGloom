@@ -1,8 +1,10 @@
-package com.example.knightsofthegloom;
+package com.example.knightsofthegloom.gamepanel;
 
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+
+import com.example.knightsofthegloom.Utils;
 
 public class Joystick {
 

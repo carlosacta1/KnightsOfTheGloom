@@ -1,4 +1,4 @@
-package com.example.knightsofthegloom.object;
+package com.example.knightsofthegloom.gameobject;
 
 import android.content.Context;
 

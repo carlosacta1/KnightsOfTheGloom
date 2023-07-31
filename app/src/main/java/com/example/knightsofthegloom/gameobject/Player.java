@@ -1,4 +1,4 @@
-package com.example.knightsofthegloom.object;
+package com.example.knightsofthegloom.gameobject;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -6,7 +6,8 @@ import android.graphics.Canvas;
 import androidx.core.content.ContextCompat;
 
 import com.example.knightsofthegloom.GameLoop;
-import com.example.knightsofthegloom.Joystick;
+import com.example.knightsofthegloom.gamepanel.HealthBar;
+import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.R;
 import com.example.knightsofthegloom.Utils;
 
