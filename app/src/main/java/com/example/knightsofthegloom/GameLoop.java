@@ -1,6 +1,7 @@
 package com.example.knightsofthegloom;
 
 import android.graphics.Canvas;
+import android.util.Log;
 import android.view.Surface;
 import android.view.SurfaceHolder;
 
@@ -32,12 +33,14 @@ public class GameLoop extends Thread {
     }
 
     public void startLoop() {
+        Log.d("GameLoop.java", "startLoop()");
         isRunning = true;
         start();
     }
 
     @Override
     public void run() {
+        Log.d("GameLoop.java", "run()");
         super.run();
 
         //Declare count and cycle count variables
@@ -106,6 +109,7 @@ public class GameLoop extends Thread {
         }
     }
     public void stopLoop() {
+        Log.d("GameLoop.java", "stopLoop()");
         isRunning = false;
         try {
             join();
