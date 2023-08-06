@@ -5,11 +5,14 @@ import android.graphics.Canvas;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.knightsofthegloom.GameDisplay;
 import com.example.knightsofthegloom.GameLoop;
 import com.example.knightsofthegloom.gamepanel.HealthBar;
 import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.R;
 import com.example.knightsofthegloom.Utils;
+import com.example.knightsofthegloom.graphics.Animator;
+import com.example.knightsofthegloom.graphics.Sprite;
 
 //Player is the main character controller via the joystick, the player class is an extension of Circle which is an extension of GameObject
 
@@ -19,14 +22,17 @@ public class Player extends Circle {
     public static final int MAX_HEALTH_POINTS = 10;
     private final Joystick joystick;
     private HealthBar healthBar;
-    private int healthPoints;
+    private int healthPoints = MAX_HEALTH_POINTS;
+    private Animator animator;
+    private  PlayerState playerState;
 
-    public Player(Context context, Joystick joystick, double positionX, double positionY, double radius) {
+    public Player(Context context, Joystick joystick, double positionX, double positionY, double radius, Animator animator) {
         super(context, ContextCompat.getColor(context, R.color.player), positionX, positionY, radius);
 
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
-        this.healthPoints = MAX_HEALTH_POINTS;
+        this.animator = animator;
+        this.playerState = new PlayerState(this);
     }
 
     public void update() {
@@ -44,11 +50,13 @@ public class Player extends Circle {
             directionX = velocityX/distance;
             directionY = velocityY/distance;
         }
+
+        playerState.update();
     }
 
-    public void draw(Canvas canvas) {
-        super.draw(canvas);
-        healthBar.draw(canvas);
+    public void draw(Canvas canvas, GameDisplay gameDisplay) {
+        animator.draw(canvas, gameDisplay, this);
+        healthBar.draw(canvas, gameDisplay);
     }
 
     public int getHealthPoints() {
@@ -59,5 +67,9 @@ public class Player extends Circle {
         if(healthPoints >= 0) {
             this.healthPoints = healthPoints;
         }
+    }
+
+    public PlayerState getPlayerState() {
+        return playerState;
     }
 }

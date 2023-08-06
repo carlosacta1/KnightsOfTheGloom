@@ -1,8 +1,10 @@
 package com.example.knightsofthegloom;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -18,6 +20,9 @@ import com.example.knightsofthegloom.gameobject.Spell;
 import com.example.knightsofthegloom.gamepanel.GameOver;
 import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.gamepanel.Performance;
+import com.example.knightsofthegloom.graphics.Animator;
+import com.example.knightsofthegloom.graphics.SpriteSheet;
+import com.example.knightsofthegloom.map.Tilemap;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +31,7 @@ import java.util.List;
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final Player player;
     private final Joystick joystick;
+    private final Tilemap tilemap;
     private GameLoop gameLoop;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
     private List<Spell> spellList = new ArrayList<Spell>();
@@ -33,6 +39,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private int numberOfSpellsToCast = 0;
     private GameOver gameOver;
     private Performance performance;
+    private GameDisplay gameDisplay;
 
     public Game(Context context) {
         super(context);
@@ -46,10 +53,21 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //Initialize Game Panels
         performance = new Performance(context, gameLoop);
         gameOver = new GameOver(context);
-        joystick = new Joystick(275, 700, 70, 40);
+        joystick = new Joystick(275, 650, 70, 40);
 
         //Initialize Game Objects
-        player = new Player(context, joystick, 2*500, 500, 30);
+        SpriteSheet spriteSheet = new SpriteSheet(context);
+        Animator animator = new Animator(spriteSheet.getPlayerSpriteArray());
+        player = new Player(context, joystick, 2*500, 500, 32, animator);
+
+        //Initialize GameDisplay and center it around the player
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
+
+        //Initialize Tilemap
+        tilemap = new Tilemap(spriteSheet);
+
         setFocusable(true);
     }
 
@@ -90,9 +108,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         Log.d("Game.java", "surfaceCreated()");
         if (gameLoop.getState().equals(Thread.State.TERMINATED)) {
-            SurfaceHolder surfaceHolder = getHolder();
-            surfaceHolder.addCallback(this);
-            gameLoop = new GameLoop(this, surfaceHolder);
+            gameLoop = new GameLoop(this, holder);
         }
         gameLoop.startLoop();
     }
@@ -112,17 +128,24 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     public void draw(Canvas canvas) {
         super.draw(canvas);
 
-        player.draw(canvas);
+        //Draw Tilemap
+        tilemap.draw(canvas, gameDisplay);
+
+        //Draw Game Objects
+        player.draw(canvas, gameDisplay);
 
         for(Enemy enemy : enemyList) {
-            enemy.draw(canvas);
+            enemy.draw(canvas, gameDisplay);
         }
         for(Spell spell : spellList) {
-            spell.draw(canvas);
+            spell.draw(canvas, gameDisplay);
         }
+
+        //Dray GamePanels
         joystick.draw(canvas);
         performance.draw(canvas);
 
+        //Draw GameOver
         if(player.getHealthPoints() <= 0) {
             gameOver.draw(canvas);
         }
@@ -172,6 +195,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 }
             }
         }
+        gameDisplay.update();
     }
 
     public void pause() {
