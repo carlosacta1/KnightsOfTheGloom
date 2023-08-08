@@ -8,21 +8,24 @@ import android.graphics.Rect;
 import com.example.knightsofthegloom.R;
 
 public class SpriteSheet {
-    private static final int SPRITE_WIDTH_PIXELS = 64;
-    private static final int SPRITE_HEIGHT_PIXELS = 64;
+    private static final int SPRITE_WIDTH_PIXELS = 192;
+    private static final int SPRITE_HEIGHT_PIXELS = 192;
+    private static final int TOTAL_SPRITE_MOVING_FRAMES = 12;
+    private static final int TOTAL_SPRITE_NOT_MOVING_FRAMES = 14;
     private Bitmap bitmap;
 
     public SpriteSheet(Context context) {
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inScaled = false;
-        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprite_sheet, bitmapOptions);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player_sheet, bitmapOptions);
+        // bitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprite_sheet, bitmapOptions);
     }
 
-    public Sprite[] getPlayerSpriteArray() {
-        Sprite[] spriteArray = new Sprite[3];
-        spriteArray[0] = new Sprite(this, new Rect(0*64, 0, 1*64, 64));
-        spriteArray[1] = new Sprite(this, new Rect(1*64, 0, 2*64, 64));
-        spriteArray[2] = new Sprite(this, new Rect(2*64, 0, 3*64, 64));
+    public Sprite[] getPlayerMovingSpriteArray() {
+        Sprite[] spriteArray = new Sprite[TOTAL_SPRITE_MOVING_FRAMES];
+        for (int i = 0; i < spriteArray.length; i++) {
+            spriteArray[i] = spriteArray[0] = new Sprite(this, new Rect(i*SPRITE_WIDTH_PIXELS, 1*SPRITE_HEIGHT_PIXELS, (i+1)*SPRITE_WIDTH_PIXELS, 2*SPRITE_HEIGHT_PIXELS));
+        }
         return spriteArray;
     }
 

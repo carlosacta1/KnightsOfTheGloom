@@ -10,9 +10,11 @@ public class Animator {
 
     private Sprite[] playerSpriteArray;
     private int idxNotMovingFrame = 0;
+    private int startIdxMovingFrame = 0;
+    private int endIdxMovingFrame = 11;
     private int idxMovingFrame = 1;
     private int updatesBeforeNextMoveFrame;
-    private static final int MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME = 5;
+    private static final int MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME = 2;
 
     public Animator(Sprite[] playerSpriteArray) {
         this.playerSpriteArray = playerSpriteArray;
@@ -31,7 +33,7 @@ public class Animator {
                 updatesBeforeNextMoveFrame--;
                 if (updatesBeforeNextMoveFrame == 0) {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
-                    toggleIdxMovingFrame();
+                    nextMovingFrame();
                 }
                 drawFrame(canvas, gameDisplay, player, playerSpriteArray[idxMovingFrame]);
                 break;
@@ -48,10 +50,10 @@ public class Animator {
         );
     }
 
-    private void toggleIdxMovingFrame() {
-        if(idxMovingFrame == 1)
-            idxMovingFrame = 2;
+    private void nextMovingFrame() {
+        if(idxMovingFrame == endIdxMovingFrame)
+            idxMovingFrame = startIdxMovingFrame;
         else
-            idxMovingFrame = 1;
+            idxMovingFrame++;
     }
 }
