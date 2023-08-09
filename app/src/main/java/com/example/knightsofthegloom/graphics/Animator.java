@@ -1,6 +1,7 @@
 package com.example.knightsofthegloom.graphics;
 
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 
 import com.example.knightsofthegloom.GameDisplay;
 import com.example.knightsofthegloom.gameobject.Player;
@@ -43,11 +44,36 @@ public class Animator {
     }
 
     public void drawFrame(Canvas canvas, GameDisplay gameDisplay, Player player, Sprite sprite) {
-        sprite.draw(
-                canvas,
-                (int) gameDisplay.gameToDisplayCoordinatesX(player.getPositionX()) - sprite.getWidth()/2,
-                (int) gameDisplay.gameToDisplayCoordinatesY(player.getPositionY()) - sprite.getHeight()/2
-        );
+        Matrix originalMatrix = canvas.getMatrix();
+
+
+        int displayX = (int) gameDisplay.gameToDisplayCoordinatesX(player.getPositionX());
+        int displayY = (int) gameDisplay.gameToDisplayCoordinatesY(player.getPositionY());
+
+        // Calcula la coordenada X reflejada
+        if (player.getDirectionX() > 0) {
+            Matrix matrix = new Matrix();
+            matrix.setScale(-1.0f, 1.0f);
+            canvas.setMatrix(matrix);
+            int reflectedX = -displayX;
+            displayX = reflectedX;
+
+            sprite.draw(
+                    canvas,
+                    displayX - sprite.getWidth()/2,
+                    displayY - sprite.getHeight()/2
+            );
+
+        } else {
+            sprite.draw(
+                    canvas,
+                    displayX - sprite.getWidth()/2,
+                    displayY - sprite.getHeight()/2
+            );
+        }
+
+        // Restablece la matriz de transformación del canvas a su estado original
+        canvas.setMatrix(originalMatrix);
     }
 
     private void nextMovingFrame() {

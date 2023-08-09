@@ -2,6 +2,7 @@ package com.example.knightsofthegloom.gameobject;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.util.Log;
 
 import androidx.core.content.ContextCompat;
 
@@ -26,6 +27,7 @@ public class Player extends Circle {
     private Animator animator;
     private  PlayerState playerState;
 
+
     public Player(Context context, Joystick joystick, double positionX, double positionY, double radius, Animator animator) {
         super(context, ContextCompat.getColor(context, R.color.player), positionX, positionY, radius);
 
@@ -39,6 +41,7 @@ public class Player extends Circle {
         //Update Velocity based on actuator of joystick
         velocityX = joystick.getActuatorX() * MAX_SPEED;
         velocityY = joystick.getActuatorY() * MAX_SPEED;
+
 
         //Update position
         positionX += velocityX;

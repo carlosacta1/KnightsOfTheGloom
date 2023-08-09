@@ -35,7 +35,7 @@ public abstract class GameObject {
         );
     }
 
-    protected double getDirectionX() {
+    public double getDirectionX() {
         return directionX;
     }
 
