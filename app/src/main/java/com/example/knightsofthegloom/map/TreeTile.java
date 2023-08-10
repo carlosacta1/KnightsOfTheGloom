@@ -18,7 +18,7 @@ class TreeTile extends Tile {
 
     @Override
     public void draw(Canvas canvas) {
-        grassSprite.draw(canvas, mapLocationRect.left, mapLocationRect.top);
-        treeSprite.draw(canvas, mapLocationRect.left, mapLocationRect.top);
+        grassSprite.drawTile(canvas, mapLocationRect.left, mapLocationRect.top);
+        treeSprite.drawTile(canvas, mapLocationRect.left, mapLocationRect.top);
     }
 }

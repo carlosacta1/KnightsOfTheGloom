@@ -46,12 +46,11 @@ public class Animator {
     public void drawFrame(Canvas canvas, GameDisplay gameDisplay, Player player, Sprite sprite) {
         Matrix originalMatrix = canvas.getMatrix();
 
-
         int displayX = (int) gameDisplay.gameToDisplayCoordinatesX(player.getPositionX());
         int displayY = (int) gameDisplay.gameToDisplayCoordinatesY(player.getPositionY());
 
-        // Calcula la coordenada X reflejada
         if (player.getDirectionX() > 0) {
+            // Calcula la coordenada X reflejada
             Matrix matrix = new Matrix();
             matrix.setScale(-1.0f, 1.0f);
             canvas.setMatrix(matrix);

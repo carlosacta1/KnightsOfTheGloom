@@ -14,7 +14,16 @@ public class Sprite {
 
     public void draw(Canvas canvas, int x, int y) {
         canvas.drawBitmap(
-                spriteSheet.getBitmap(),
+                spriteSheet.getPlayerBitmap(),
+                rect,
+                new Rect(x,y,x+getWidth(),y+getHeight()),
+                null
+        );
+    }
+
+    public void drawTile(Canvas canvas, int x, int y) {
+        canvas.drawBitmap(
+                spriteSheet.getTilesBitmap(),
                 rect,
                 new Rect(x,y,x+getWidth(),y+getHeight()),
                 null

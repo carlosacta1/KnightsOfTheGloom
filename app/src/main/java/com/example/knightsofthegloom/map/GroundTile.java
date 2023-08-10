@@ -16,6 +16,6 @@ class GroundTile extends Tile {
 
     @Override
     public void draw(Canvas canvas) {
-        sprite.draw(canvas, mapLocationRect.left, mapLocationRect.top);
+        sprite.drawTile(canvas, mapLocationRect.left, mapLocationRect.top);
     }
 }
