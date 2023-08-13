@@ -14,6 +14,8 @@ import com.example.knightsofthegloom.R;
 import com.example.knightsofthegloom.Utils;
 import com.example.knightsofthegloom.graphics.Animator;
 import com.example.knightsofthegloom.graphics.Sprite;
+import com.example.knightsofthegloom.map.MapLayout;
+import com.example.knightsofthegloom.map.Tilemap;
 
 //Player is the main character controller via the joystick, the player class is an extension of Circle which is an extension of GameObject
 
@@ -26,15 +28,17 @@ public class Player extends Circle {
     private int healthPoints = MAX_HEALTH_POINTS;
     private Animator animator;
     private  PlayerState playerState;
+    private Tilemap tilemap;
 
 
-    public Player(Context context, Joystick joystick, double positionX, double positionY, double radius, Animator animator) {
+    public Player(Context context, Joystick joystick, double positionX, double positionY, double radius, Animator animator, Tilemap tilemap) {
         super(context, ContextCompat.getColor(context, R.color.player), positionX, positionY, radius);
 
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.animator = animator;
         this.playerState = new PlayerState(this);
+        this.tilemap = tilemap;
     }
 
     public void update() {
@@ -42,10 +46,21 @@ public class Player extends Circle {
         velocityX = joystick.getActuatorX() * MAX_SPEED;
         velocityY = joystick.getActuatorY() * MAX_SPEED;
 
+        Log.i("POSITIONX", String.valueOf(positionX));
+        Log.i("POSITIONY", String.valueOf(positionY));
 
-        //Update position
-        positionX += velocityX;
-        positionY += velocityY;
+
+        // Calculate potential new positions
+        double potentialX = positionX + velocityX;
+        double potentialY = positionY + velocityY;
+
+        // Check if potential positions are within bounds of the map
+        if (potentialX - radius >= 0 && potentialX + radius <= tilemap.getTilemapWidthPixels()) {
+            positionX = potentialX;
+        }
+        if (potentialY - radius >= 0 && potentialY + radius <= tilemap.getTilemapHeightPixels()) {
+            positionY = potentialY;
+        }
 
         //Update direction
         if (velocityX != 0 || velocityY != 0) {

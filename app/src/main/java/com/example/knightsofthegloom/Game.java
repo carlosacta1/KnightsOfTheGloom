@@ -58,15 +58,19 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         //Initialize Game Objects
         SpriteSheet spriteSheet = new SpriteSheet(context);
         Animator animator = new Animator(spriteSheet.getPlayerMovingSpriteArray());
-        player = new Player(context, joystick, 2*500, 500, 32, animator);
+
+        //Initialize Tilemap
+        tilemap = new Tilemap(spriteSheet);
+
+        //Initialize player
+        player = new Player(context, joystick, 2*500, 500, 32, animator, tilemap);
 
         //Initialize GameDisplay and center it around the player
         DisplayMetrics displayMetrics = new DisplayMetrics();
         ((Activity) getContext()).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
         gameDisplay = new GameDisplay(displayMetrics.widthPixels, displayMetrics.heightPixels, player);
 
-        //Initialize Tilemap
-        tilemap = new Tilemap(spriteSheet);
+
 
         setFocusable(true);
     }

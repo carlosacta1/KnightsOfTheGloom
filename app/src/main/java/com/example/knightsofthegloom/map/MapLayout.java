@@ -3,8 +3,8 @@ package com.example.knightsofthegloom.map;
 public class MapLayout {
     public static final int TILE_WIDTH_PIXELS = 64;
     public static final int TILE_HEIGHT_PIXELS = 64;
-    public static final int NUMBER_OF_ROW_TILES = 60;
-    public static final int NUMBER_OF_COLUMN_TILES = 60;
+    public static int NUMBER_OF_ROW_TILES = 0;
+    public static int NUMBER_OF_COLUMN_TILES = 0;
 
     private int[][] layout;
 
@@ -15,6 +15,7 @@ public class MapLayout {
     public int[][] getLayout() {
         return  layout;
     }
+
 
     private void initializeLayout() {
         layout = new int[][] {
@@ -79,5 +80,7 @@ public class MapLayout {
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2},
                 {2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2}
         };
+        NUMBER_OF_ROW_TILES = layout.length;
+        NUMBER_OF_COLUMN_TILES = layout[0].length;
     }
 }
