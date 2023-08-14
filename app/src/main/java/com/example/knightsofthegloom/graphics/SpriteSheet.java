@@ -8,12 +8,16 @@ import android.graphics.Rect;
 import com.example.knightsofthegloom.R;
 
 public class SpriteSheet {
-    private static final int SPRITE_WIDTH_PIXELS = 192;
+    private static final int SPRITE_WIDTH_PIXELS = 145;
     private static final int TILE_SPRITE_WIDTH_PIXELS = 64;
-    private static final int SPRITE_HEIGHT_PIXELS = 192;
+    private static final int SPRITE_HEIGHT_PIXELS = 208;
     private static final int TILE_SPRITE_HEIGHT_PIXELS = 64;
-    private static final int TOTAL_SPRITE_MOVING_FRAMES = 12;
-    private static final int TOTAL_SPRITE_NOT_MOVING_FRAMES = 14;
+    private static final int TOTAL_SPRITE_NOT_MOVING_FRAMES = 9;
+    private static final int TOTAL_SPRITE_MOVING_FRONT_FRAMES = 4;
+    private static final int TOTAL_SPRITE_MOVING_LEFT_FRAMES = 4;
+    private static final int TOTAL_SPRITE_MOVING_RIGHT_FRAMES = 4;
+    private static final int TOTAL_SPRITE_MOVING_BACK_FRAMES = 4;
+
     private Bitmap playerBitmap;
     private Bitmap tilesBitmap;
 
@@ -24,12 +28,20 @@ public class SpriteSheet {
         tilesBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprite_sheet, bitmapOptions);
     }
 
-    public Sprite[] getPlayerMovingSpriteArray() {
-        Sprite[] spriteArray = new Sprite[TOTAL_SPRITE_MOVING_FRAMES];
-        for (int i = 0; i < spriteArray.length; i++) {
-            spriteArray[i] = spriteArray[0] = new Sprite(this, new Rect(i*SPRITE_WIDTH_PIXELS, 1*SPRITE_HEIGHT_PIXELS, (i+1)*SPRITE_WIDTH_PIXELS, 2*SPRITE_HEIGHT_PIXELS));
+    public Sprite[][] getPlayerMovingSpriteMatrix() {
+        Sprite[][] spriteMatrix = new Sprite[5][];
+        spriteMatrix[0] = new Sprite[TOTAL_SPRITE_NOT_MOVING_FRAMES];
+        spriteMatrix[1] = new Sprite[TOTAL_SPRITE_MOVING_FRONT_FRAMES];
+        spriteMatrix[2] = new Sprite[TOTAL_SPRITE_MOVING_LEFT_FRAMES];
+        spriteMatrix[3] = new Sprite[TOTAL_SPRITE_MOVING_RIGHT_FRAMES];
+        spriteMatrix[4] = new Sprite[TOTAL_SPRITE_MOVING_BACK_FRAMES];
+
+        for (int i = 0; i < spriteMatrix.length; i++) {
+            for (int j = 0; j < spriteMatrix[i].length; j++) {
+                spriteMatrix[i][j] = new Sprite(this, new Rect(j*SPRITE_WIDTH_PIXELS, i*SPRITE_HEIGHT_PIXELS, (j+1)*SPRITE_WIDTH_PIXELS, (i+1)*SPRITE_HEIGHT_PIXELS));
+            }
         }
-        return spriteArray;
+        return spriteMatrix;
     }
 
     public Bitmap getPlayerBitmap() {

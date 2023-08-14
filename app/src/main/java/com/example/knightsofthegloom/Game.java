@@ -57,7 +57,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         //Initialize Game Objects
         SpriteSheet spriteSheet = new SpriteSheet(context);
-        Animator animator = new Animator(spriteSheet.getPlayerMovingSpriteArray());
+        Animator animator = new Animator(spriteSheet.getPlayerMovingSpriteMatrix());
 
         //Initialize Tilemap
         tilemap = new Tilemap(spriteSheet);
@@ -147,7 +147,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         //Dray GamePanels
         joystick.draw(canvas);
-        performance.draw(canvas);
+        //performance.draw(canvas);
 
         //Draw GameOver
         if(player.getHealthPoints() <= 0) {

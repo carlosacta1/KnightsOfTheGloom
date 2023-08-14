@@ -46,10 +46,6 @@ public class Player extends Circle {
         velocityX = joystick.getActuatorX() * MAX_SPEED;
         velocityY = joystick.getActuatorY() * MAX_SPEED;
 
-        Log.i("POSITIONX", String.valueOf(positionX));
-        Log.i("POSITIONY", String.valueOf(positionY));
-
-
         // Calculate potential new positions
         double potentialX = positionX + velocityX;
         double potentialY = positionY + velocityY;
@@ -68,6 +64,9 @@ public class Player extends Circle {
             directionX = velocityX/distance;
             directionY = velocityY/distance;
         }
+
+        Log.i("DIRECCIONX", String.valueOf(directionX));
+        Log.i("DIRECCIONY", String.valueOf(directionY));
 
         playerState.update();
     }
