@@ -8,27 +8,30 @@ import android.graphics.Rect;
 import com.example.knightsofthegloom.R;
 
 public class SpriteSheet {
-    private static final int SPRITE_WIDTH_PIXELS = 145;
-    private static final int TILE_SPRITE_WIDTH_PIXELS = 64;
-    private static final int SPRITE_HEIGHT_PIXELS = 208;
-    private static final int TILE_SPRITE_HEIGHT_PIXELS = 64;
-    private static final int TOTAL_SPRITE_NOT_MOVING_FRAMES = 9;
-    private static final int TOTAL_SPRITE_MOVING_FRONT_FRAMES = 4;
-    private static final int TOTAL_SPRITE_MOVING_LEFT_FRAMES = 4;
-    private static final int TOTAL_SPRITE_MOVING_RIGHT_FRAMES = 4;
-    private static final int TOTAL_SPRITE_MOVING_BACK_FRAMES = 4;
+    private static int SPRITE_WIDTH_PIXELS;
+    private static int SPRITE_HEIGHT_PIXELS;
+    private static int TOTAL_SPRITE_NOT_MOVING_FRAMES;
+    private static int TOTAL_SPRITE_MOVING_FRONT_FRAMES;
+    private static int TOTAL_SPRITE_MOVING_LEFT_FRAMES;
+    private static int TOTAL_SPRITE_MOVING_RIGHT_FRAMES;
+    private static int TOTAL_SPRITE_MOVING_BACK_FRAMES;
 
-    private Bitmap playerBitmap;
-    private Bitmap tilesBitmap;
+    private Bitmap bitmap;
 
-    public SpriteSheet(Context context) {
+    public SpriteSheet(Context context, int spriteWidth, int spriteHeight, int notMovingFrames, int movingFrontFrames, int movingLeftFrames, int movingRightFrames, int movingBackFrames, int resourceId) {
+        this.SPRITE_WIDTH_PIXELS = spriteWidth;
+        this.SPRITE_HEIGHT_PIXELS = spriteHeight;
+        this.TOTAL_SPRITE_NOT_MOVING_FRAMES = notMovingFrames;
+        this.TOTAL_SPRITE_MOVING_FRONT_FRAMES = movingFrontFrames;
+        this.TOTAL_SPRITE_MOVING_LEFT_FRAMES = movingLeftFrames;
+        this.TOTAL_SPRITE_MOVING_RIGHT_FRAMES = movingRightFrames;
+        this.TOTAL_SPRITE_MOVING_BACK_FRAMES = movingBackFrames;
         BitmapFactory.Options bitmapOptions = new BitmapFactory.Options();
         bitmapOptions.inScaled = false;
-        playerBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.player_sheet, bitmapOptions);
-        tilesBitmap = BitmapFactory.decodeResource(context.getResources(), R.drawable.sprite_sheet, bitmapOptions);
+        bitmap = BitmapFactory.decodeResource(context.getResources(), resourceId, bitmapOptions);
     }
 
-    public Sprite[][] getPlayerMovingSpriteMatrix() {
+    public Sprite[][] getMovingSpriteMatrix() {
         Sprite[][] spriteMatrix = new Sprite[5][];
         spriteMatrix[0] = new Sprite[TOTAL_SPRITE_NOT_MOVING_FRAMES];
         spriteMatrix[1] = new Sprite[TOTAL_SPRITE_MOVING_FRONT_FRAMES];
@@ -45,41 +48,10 @@ public class SpriteSheet {
     }
 
     public Bitmap getPlayerBitmap() {
-        return playerBitmap;
+        return bitmap;
     }
 
-    public Bitmap getTilesBitmap() {
-        return tilesBitmap;
-    }
 
-    public Sprite getWaterSprite() {
-        return getTileByIndex(1, 0);
-    }
-
-    public Sprite getLavaSprite() {
-        return getTileByIndex(1, 1);
-    }
-
-    public Sprite getGroundSprite() {
-        return getTileByIndex(1, 2);
-    }
-
-    public Sprite getGrassSprite() {
-        return getTileByIndex(1, 3);
-    }
-
-    public Sprite getTreeSprite() {
-        return getTileByIndex(1, 4);
-    }
-
-    private Sprite getTileByIndex(int idxRow, int idxCol) {
-       return new Sprite(this, new Rect(
-                idxCol*TILE_SPRITE_WIDTH_PIXELS,
-                idxRow*TILE_SPRITE_HEIGHT_PIXELS,
-                TILE_SPRITE_WIDTH_PIXELS * (idxCol + 1),
-                TILE_SPRITE_HEIGHT_PIXELS * (idxRow + 1)
-                ));
-    }
 
 
 }

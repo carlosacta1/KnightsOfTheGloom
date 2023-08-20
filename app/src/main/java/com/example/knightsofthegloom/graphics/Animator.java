@@ -1,47 +1,75 @@
 package com.example.knightsofthegloom.graphics;
 
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 
 import com.example.knightsofthegloom.GameDisplay;
 import com.example.knightsofthegloom.gameobject.Player;
-import com.example.knightsofthegloom.gameobject.PlayerState;
 
 public class Animator {
 
-    private Sprite[][] playerSpriteMatrix;
+    private Sprite[][] spriteMatrix;
 
-    private int notMovingFrameArrayPosition = 0;
-    private int startIdxNotMovingFrame = 0;
-    private int endIdxNotMovingFrame = 8;
-    private int idxNotMovingFrame = 0;
+    private int notMovingFrameArrayPosition;
+    private int startIdxNotMovingFrame;
+    private int endIdxNotMovingFrame;
+    private int idxNotMovingFrame;
 
-    private int movingFrontFrameArrayPosition = 1;
-    private int startIdxMovingFrontFrame = 0;
-    private int endIdxMovingFrontFrame = 3;
-    private int idxMovingFrontFrame = 0;
+    private int movingFrontFrameArrayPosition;
+    private int startIdxMovingFrontFrame;
+    private int endIdxMovingFrontFrame;
+    private int idxMovingFrontFrame;
 
-    private int movingLeftFrameArrayPosition = 2;
-    private int startIdxMovingLeftFrame = 0;
-    private int endIdxMovingLeftFrame = 3;
-    private int idxMovingLeftFrame = 0;
+    private int movingLeftFrameArrayPosition;
+    private int startIdxMovingLeftFrame;
+    private int endIdxMovingLeftFrame;
+    private int idxMovingLeftFrame;
 
-    private int movingRightFrameArrayPosition = 3;
-    private int startIdxMovingRightFrame = 0;
-    private int endIdxMovingRightFrame = 3;
-    private int idxMovingRightFrame = 0;
+    private int movingRightFrameArrayPosition;
+    private int startIdxMovingRightFrame;
+    private int endIdxMovingRightFrame;
+    private int idxMovingRightFrame;
 
-    private int movingBackFrameArrayPosition = 4;
-    private int startIdxMovingBackFrame = 0;
-    private int endIdxMovingBackFrame = 3;
-    private int idxMovingBackFrame = 0;
+    private int movingBackFrameArrayPosition;
+    private int startIdxMovingBackFrame;
+    private int endIdxMovingBackFrame;
+    private int idxMovingBackFrame;
 
 
     private int updatesBeforeNextMoveFrame;
-    private static final int MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME = 2;
+    private static int MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
 
-    public Animator(Sprite[][] playerSpriteMatrix) {
-        this.playerSpriteMatrix = playerSpriteMatrix;
+    public Animator(Sprite[][] spriteMatrix, int notMovingRowIdx, int totalNotMovingIdx,
+                    int movingFrontRowIdx, int totalMovingFrontIdx, int movingLeftRowIdx, int totalMovingLeftIdx,
+                    int movingRightRowIdx, int totalMovingRightIdx, int movingBackRowIdx, int totalMovingBackIdx,
+                    int maxUpdates) {
+        this.spriteMatrix = spriteMatrix;
+
+        this.notMovingFrameArrayPosition = notMovingRowIdx;
+        this.startIdxNotMovingFrame = 0;
+        this.endIdxNotMovingFrame = totalNotMovingIdx;
+        this.idxNotMovingFrame = 0;
+
+        this.movingFrontFrameArrayPosition = movingFrontRowIdx;
+        this.startIdxMovingFrontFrame = 0;
+        this.endIdxMovingFrontFrame = totalMovingFrontIdx;
+        this.idxMovingFrontFrame = 0;
+
+        this.movingLeftFrameArrayPosition = movingLeftRowIdx;
+        this.startIdxMovingLeftFrame = 0;
+        this.endIdxMovingLeftFrame = totalMovingLeftIdx;
+        this.idxMovingLeftFrame = 0;
+
+        this.movingRightFrameArrayPosition = movingRightRowIdx;
+        this.startIdxMovingRightFrame = 0;
+        this.endIdxMovingRightFrame = totalMovingRightIdx;
+        this.idxMovingRightFrame = 0;
+
+        this.movingBackFrameArrayPosition = movingBackRowIdx;
+        this.startIdxMovingBackFrame = 0;
+        this.endIdxMovingBackFrame = totalMovingBackIdx;
+        this.idxMovingBackFrame = 0;
+
+        this.MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME = maxUpdates;
     }
 
     public void draw(Canvas canvas, GameDisplay gameDisplay, Player player) {
@@ -52,7 +80,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextNotMovingFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteMatrix[notMovingFrameArrayPosition][idxNotMovingFrame]);
+                drawFrame(canvas, gameDisplay, player, spriteMatrix[notMovingFrameArrayPosition][idxNotMovingFrame]);
                 break;
             case STARED_MOVING:
                 updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
@@ -63,7 +91,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingFrontFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteMatrix[movingFrontFrameArrayPosition][idxMovingFrontFrame]);
+                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingFrontFrameArrayPosition][idxMovingFrontFrame]);
                 break;
             case MOVING_LEFT:
                 updatesBeforeNextMoveFrame--;
@@ -71,7 +99,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingLeftFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteMatrix[movingLeftFrameArrayPosition][idxMovingLeftFrame]);
+                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingLeftFrameArrayPosition][idxMovingLeftFrame]);
                 break;
             case MOVING_RIGHT:
                 updatesBeforeNextMoveFrame--;
@@ -79,7 +107,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingRightFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteMatrix[movingRightFrameArrayPosition][idxMovingRightFrame]);
+                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingRightFrameArrayPosition][idxMovingRightFrame]);
                 break;
             case MOVING_BACK:
                 updatesBeforeNextMoveFrame--;
@@ -87,7 +115,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingBackFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, playerSpriteMatrix[movingBackFrameArrayPosition][idxMovingBackFrame]);
+                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingBackFrameArrayPosition][idxMovingBackFrame]);
                 break;
             default:
                 break;

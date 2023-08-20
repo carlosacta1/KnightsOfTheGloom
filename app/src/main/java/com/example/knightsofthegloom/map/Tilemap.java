@@ -10,19 +10,19 @@ import android.graphics.Canvas;
 import android.graphics.Rect;
 
 import com.example.knightsofthegloom.GameDisplay;
-import com.example.knightsofthegloom.graphics.Sprite;
-import com.example.knightsofthegloom.graphics.SpriteSheet;
+import com.example.knightsofthegloom.graphics.Tile;
+import com.example.knightsofthegloom.graphics.TileSheet;
 
 public class Tilemap {
 
     private final MapLayout mapLayout;
     private Tile[][] tilemap;
-    private SpriteSheet spriteSheet;
+    private TileSheet tileSheet;
     private Bitmap mapBitmap;
 
-    public Tilemap(SpriteSheet spriteSheet) {
+    public Tilemap(TileSheet tileSheet) {
         mapLayout = new MapLayout();
-        this.spriteSheet = spriteSheet;
+        this.tileSheet = tileSheet;
         initializeTilemap();
     }
 
@@ -31,11 +31,7 @@ public class Tilemap {
         tilemap = new Tile[NUMBER_OF_ROW_TILES][NUMBER_OF_COLUMN_TILES];
         for(int iRow = 0; iRow < NUMBER_OF_ROW_TILES; iRow++) {
             for(int iCol = 0; iCol < NUMBER_OF_COLUMN_TILES; iCol++) {
-                tilemap[iRow][iCol] = Tile.getTile(
-                        layout[iRow][iCol],
-                        spriteSheet,
-                        getRectByIndex(iRow, iCol)
-                );
+                tilemap[iRow][iCol] = new Tile(tileSheet, layout[iRow][iCol]);
             }
         }
         
@@ -51,7 +47,7 @@ public class Tilemap {
 
         for(int iRow = 0; iRow < NUMBER_OF_ROW_TILES; iRow++) {
             for(int iCol = 0; iCol < NUMBER_OF_COLUMN_TILES; iCol++) {
-                tilemap[iRow][iCol].draw(mapCanvas);
+                tilemap[iRow][iCol].draw(mapCanvas, iRow, iCol);
             }
         }
     }

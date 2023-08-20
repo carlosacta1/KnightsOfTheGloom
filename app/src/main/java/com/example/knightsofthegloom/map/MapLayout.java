@@ -3,8 +3,8 @@ package com.example.knightsofthegloom.map;
 public class MapLayout {
     public static final int TILE_WIDTH_PIXELS = 64;
     public static final int TILE_HEIGHT_PIXELS = 64;
-    public static int NUMBER_OF_ROW_TILES = 0;
-    public static int NUMBER_OF_COLUMN_TILES = 0;
+    public static int NUMBER_OF_ROW_TILES;
+    public static int NUMBER_OF_COLUMN_TILES;
 
     private int[][] layout;
 

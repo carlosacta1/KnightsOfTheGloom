@@ -22,6 +22,7 @@ import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.gamepanel.Performance;
 import com.example.knightsofthegloom.graphics.Animator;
 import com.example.knightsofthegloom.graphics.SpriteSheet;
+import com.example.knightsofthegloom.graphics.TileSheet;
 import com.example.knightsofthegloom.map.Tilemap;
 
 import java.util.ArrayList;
@@ -56,14 +57,16 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         joystick = new Joystick(275, 650, 70, 40);
 
         //Initialize Game Objects
-        SpriteSheet spriteSheet = new SpriteSheet(context);
-        Animator animator = new Animator(spriteSheet.getPlayerMovingSpriteMatrix());
+        SpriteSheet playerSpriteSheet = new SpriteSheet(context, 145, 208, 9, 4, 4, 4, 4, R.drawable.player_sheet);
+        TileSheet tileSheet = new TileSheet(context);
+        Animator playerAnimator = new Animator(playerSpriteSheet.getMovingSpriteMatrix(), 0, 8, 1, 3, 2, 3, 3, 3, 4, 3, 2);
+        //Animator enemyAnimator = new Animator(spriteSheet.getPlayerMovingSpriteMatrix(), 0, 8, 1, 3, 2, 3, 3, 3, 4, 3, 2);
 
         //Initialize Tilemap
-        tilemap = new Tilemap(spriteSheet);
+        tilemap = new Tilemap(tileSheet);
 
         //Initialize player
-        player = new Player(context, joystick, 2*500, 500, 32, animator, tilemap);
+        player = new Player(context, joystick, 2*500, 500, 32, playerAnimator, tilemap);
 
         //Initialize GameDisplay and center it around the player
         DisplayMetrics displayMetrics = new DisplayMetrics();

@@ -21,15 +21,6 @@ public class Sprite {
         );
     }
 
-    public void drawTile(Canvas canvas, int x, int y) {
-        canvas.drawBitmap(
-                spriteSheet.getTilesBitmap(),
-                rect,
-                new Rect(x,y,x+getWidth(),y+getHeight()),
-                null
-        );
-    }
-
     public int getWidth() {
         return rect.width();
     }

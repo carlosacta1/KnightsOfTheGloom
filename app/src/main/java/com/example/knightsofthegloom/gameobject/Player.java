@@ -13,8 +13,6 @@ import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.R;
 import com.example.knightsofthegloom.Utils;
 import com.example.knightsofthegloom.graphics.Animator;
-import com.example.knightsofthegloom.graphics.Sprite;
-import com.example.knightsofthegloom.map.MapLayout;
 import com.example.knightsofthegloom.map.Tilemap;
 
 //Player is the main character controller via the joystick, the player class is an extension of Circle which is an extension of GameObject
@@ -27,7 +25,7 @@ public class Player extends Circle {
     private HealthBar healthBar;
     private int healthPoints = MAX_HEALTH_POINTS;
     private Animator animator;
-    private  PlayerState playerState;
+    private MovingState movingState;
     private Tilemap tilemap;
 
 
@@ -37,7 +35,7 @@ public class Player extends Circle {
         this.joystick = joystick;
         this.healthBar = new HealthBar(context, this);
         this.animator = animator;
-        this.playerState = new PlayerState(this);
+        this.movingState = new MovingState(this);
         this.tilemap = tilemap;
     }
 
@@ -65,10 +63,7 @@ public class Player extends Circle {
             directionY = velocityY/distance;
         }
 
-        Log.i("DIRECCIONX", String.valueOf(directionX));
-        Log.i("DIRECCIONY", String.valueOf(directionY));
-
-        playerState.update();
+        movingState.update();
     }
 
     public void draw(Canvas canvas, GameDisplay gameDisplay) {
@@ -86,7 +81,7 @@ public class Player extends Circle {
         }
     }
 
-    public PlayerState getPlayerState() {
-        return playerState;
+    public MovingState getPlayerState() {
+        return movingState;
     }
 }
