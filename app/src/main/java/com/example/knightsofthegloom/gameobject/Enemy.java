@@ -1,9 +1,11 @@
 package com.example.knightsofthegloom.gameobject;
 
 import android.content.Context;
+import android.graphics.Canvas;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.knightsofthegloom.GameDisplay;
 import com.example.knightsofthegloom.GameLoop;
 import com.example.knightsofthegloom.R;
 import com.example.knightsofthegloom.graphics.Animator;
@@ -26,7 +28,7 @@ public class Enemy extends Circle{
         this.movingState = new MovingState(this);
     }
 
-    public Enemy(Context context, Player player) {
+    public Enemy(Context context, Player player, Animator animator) {
         super(context, ContextCompat.getColor(context, R.color.enemy),
                 Math.random()*1000,
                 Math.random()*1000,
@@ -72,5 +74,14 @@ public class Enemy extends Circle{
         //5. Update the position of the enemy
         positionX += velocityX;
         positionY += velocityY;
+        movingState.update();
+
     }
+
+    public void draw(Canvas canvas, GameDisplay gameDisplay) {
+        animator.draw(canvas, gameDisplay, this);
+    }
+
+    public MovingState.State getState() { return movingState.getState(); }
+
 }

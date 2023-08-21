@@ -42,4 +42,6 @@ public abstract class GameObject {
     protected double getDirectionY() {
         return directionY;
     }
+
+    public abstract MovingState.State getState();
 }

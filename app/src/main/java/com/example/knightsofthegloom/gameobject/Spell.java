@@ -29,4 +29,8 @@ public class Spell extends Circle{
         positionX = positionX + velocityX;
         positionY = positionY + velocityY;
     }
+
+    public MovingState.State getState() {
+        return null;
+    }
 }

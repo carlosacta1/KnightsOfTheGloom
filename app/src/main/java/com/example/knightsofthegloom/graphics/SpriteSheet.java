@@ -8,13 +8,13 @@ import android.graphics.Rect;
 import com.example.knightsofthegloom.R;
 
 public class SpriteSheet {
-    private static int SPRITE_WIDTH_PIXELS;
-    private static int SPRITE_HEIGHT_PIXELS;
-    private static int TOTAL_SPRITE_NOT_MOVING_FRAMES;
-    private static int TOTAL_SPRITE_MOVING_FRONT_FRAMES;
-    private static int TOTAL_SPRITE_MOVING_LEFT_FRAMES;
-    private static int TOTAL_SPRITE_MOVING_RIGHT_FRAMES;
-    private static int TOTAL_SPRITE_MOVING_BACK_FRAMES;
+    private int SPRITE_WIDTH_PIXELS;
+    private int SPRITE_HEIGHT_PIXELS;
+    private int TOTAL_SPRITE_NOT_MOVING_FRAMES;
+    private int TOTAL_SPRITE_MOVING_FRONT_FRAMES;
+    private int TOTAL_SPRITE_MOVING_LEFT_FRAMES;
+    private int TOTAL_SPRITE_MOVING_RIGHT_FRAMES;
+    private int TOTAL_SPRITE_MOVING_BACK_FRAMES;
 
     private Bitmap bitmap;
 

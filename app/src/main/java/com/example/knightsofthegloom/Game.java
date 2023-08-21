@@ -31,6 +31,7 @@ import java.util.List;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private final Player player;
+    private Animator enemyAnimator;
     private final Joystick joystick;
     private final Tilemap tilemap;
     private GameLoop gameLoop;
@@ -58,15 +59,17 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         //Initialize Game Objects
         SpriteSheet playerSpriteSheet = new SpriteSheet(context, 145, 208, 9, 4, 4, 4, 4, R.drawable.player_sheet);
+        SpriteSheet enemySpriteSheet = new SpriteSheet(context, 60, 64, 3, 3, 3, 3, 3, R.drawable.spider1);
         TileSheet tileSheet = new TileSheet(context);
         Animator playerAnimator = new Animator(playerSpriteSheet.getMovingSpriteMatrix(), 0, 8, 1, 3, 2, 3, 3, 3, 4, 3, 2);
-        //Animator enemyAnimator = new Animator(spriteSheet.getPlayerMovingSpriteMatrix(), 0, 8, 1, 3, 2, 3, 3, 3, 4, 3, 2);
+        this.enemyAnimator = new Animator(enemySpriteSheet.getMovingSpriteMatrix(), 0, 2, 0, 2, 1, 2, 2, 2, 3, 2, 2);
 
         //Initialize Tilemap
         tilemap = new Tilemap(tileSheet);
 
         //Initialize player
         player = new Player(context, joystick, 2*500, 500, 32, playerAnimator, tilemap);
+        //enemy = new Enemy(context, player);
 
         //Initialize GameDisplay and center it around the player
         DisplayMetrics displayMetrics = new DisplayMetrics();
@@ -168,7 +171,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         player.update();
 
         if(Enemy.readyToSpawn()) {
-            enemyList.add(new Enemy(getContext(), player));
+            enemyList.add(new Enemy(getContext(), player, enemyAnimator));
         }
 
         while (numberOfSpellsToCast > 0) {

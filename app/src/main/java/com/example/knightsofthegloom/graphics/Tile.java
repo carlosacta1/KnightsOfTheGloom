@@ -29,7 +29,7 @@ public class Tile {
         this.idxTileType = idxTileType;
         this.tileSheet = tileSheet;
 
-        switch(TileType.values()[idxTileType]) {
+        switch(TileType.values()[this.idxTileType]) {
 
             case WATER_TILE:
                 this.idxCol = 0;

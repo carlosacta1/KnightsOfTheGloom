@@ -3,6 +3,7 @@ package com.example.knightsofthegloom.graphics;
 import android.graphics.Canvas;
 
 import com.example.knightsofthegloom.GameDisplay;
+import com.example.knightsofthegloom.gameobject.GameObject;
 import com.example.knightsofthegloom.gameobject.Player;
 
 public class Animator {
@@ -72,15 +73,15 @@ public class Animator {
         this.MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME = maxUpdates;
     }
 
-    public void draw(Canvas canvas, GameDisplay gameDisplay, Player player) {
-        switch (player.getPlayerState().getState()) {
+    public void draw(Canvas canvas, GameDisplay gameDisplay, GameObject gameObject) {
+        switch (gameObject.getState()) {
             case NOT_MOVING:
                 updatesBeforeNextMoveFrame--;
                 if (updatesBeforeNextMoveFrame == 0) {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextNotMovingFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, spriteMatrix[notMovingFrameArrayPosition][idxNotMovingFrame]);
+                drawFrame(canvas, gameDisplay, gameObject, spriteMatrix[notMovingFrameArrayPosition][idxNotMovingFrame]);
                 break;
             case STARED_MOVING:
                 updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
@@ -91,7 +92,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingFrontFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingFrontFrameArrayPosition][idxMovingFrontFrame]);
+                drawFrame(canvas, gameDisplay, gameObject, spriteMatrix[movingFrontFrameArrayPosition][idxMovingFrontFrame]);
                 break;
             case MOVING_LEFT:
                 updatesBeforeNextMoveFrame--;
@@ -99,7 +100,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingLeftFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingLeftFrameArrayPosition][idxMovingLeftFrame]);
+                drawFrame(canvas, gameDisplay, gameObject, spriteMatrix[movingLeftFrameArrayPosition][idxMovingLeftFrame]);
                 break;
             case MOVING_RIGHT:
                 updatesBeforeNextMoveFrame--;
@@ -107,7 +108,7 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingRightFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingRightFrameArrayPosition][idxMovingRightFrame]);
+                drawFrame(canvas, gameDisplay, gameObject, spriteMatrix[movingRightFrameArrayPosition][idxMovingRightFrame]);
                 break;
             case MOVING_BACK:
                 updatesBeforeNextMoveFrame--;
@@ -115,17 +116,17 @@ public class Animator {
                     updatesBeforeNextMoveFrame = MAX_UPDATES_BEFORE_NEXT_MOVE_FRAME;
                     nextMovingBackFrame();
                 }
-                drawFrame(canvas, gameDisplay, player, spriteMatrix[movingBackFrameArrayPosition][idxMovingBackFrame]);
+                drawFrame(canvas, gameDisplay, gameObject, spriteMatrix[movingBackFrameArrayPosition][idxMovingBackFrame]);
                 break;
             default:
                 break;
         }
     }
 
-    public void drawFrame(Canvas canvas, GameDisplay gameDisplay, Player player, Sprite sprite) {
+    public void drawFrame(Canvas canvas, GameDisplay gameDisplay, GameObject gameObject, Sprite sprite) {
 
-        int displayX = (int) gameDisplay.gameToDisplayCoordinatesX(player.getPositionX());
-        int displayY = (int) gameDisplay.gameToDisplayCoordinatesY(player.getPositionY());
+        int displayX = (int) gameDisplay.gameToDisplayCoordinatesX(gameObject.getPositionX());
+        int displayY = (int) gameDisplay.gameToDisplayCoordinatesY(gameObject.getPositionY());
         sprite.draw(
                 canvas,
                 displayX - sprite.getWidth()/2,

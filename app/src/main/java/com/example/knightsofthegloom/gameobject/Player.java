@@ -81,7 +81,7 @@ public class Player extends Circle {
         }
     }
 
-    public MovingState getPlayerState() {
-        return movingState;
+    public MovingState.State getState() {
+        return movingState.getState();
     }
 }
