@@ -13,11 +13,13 @@ import androidx.annotation.NonNull;
 
 import com.example.knightsofthegloom.gameobject.Circle;
 import com.example.knightsofthegloom.gameobject.Enemy;
+import com.example.knightsofthegloom.gameobject.Level;
 import com.example.knightsofthegloom.gameobject.Player;
 import com.example.knightsofthegloom.gameobject.Spell;
 import com.example.knightsofthegloom.gamepanel.GameOver;
 import com.example.knightsofthegloom.gamepanel.Joystick;
 import com.example.knightsofthegloom.gamepanel.Performance;
+import com.example.knightsofthegloom.gamepanel.Points;
 import com.example.knightsofthegloom.graphics.Animator;
 import com.example.knightsofthegloom.graphics.SpriteSheet;
 import com.example.knightsofthegloom.graphics.TileSheet;
@@ -28,10 +30,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class Game extends SurfaceView implements SurfaceHolder.Callback {
+
+    private Level level;
     private final Player player;
     private Animator enemyAnimator;
     private final Joystick joystick;
-    private final Tilemap tilemap;
+    private Tilemap tilemap;
     private GameLoop gameLoop;
     private List<Enemy> enemyList = new ArrayList<Enemy>();
     private List<Spell> spellList = new ArrayList<Spell>();
@@ -40,6 +44,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
     private GameOver gameOver;
     private Performance performance;
     private GameDisplay gameDisplay;
+    private Points playerPoints;
 
     public Game(Context context) {
         super(context);
@@ -49,21 +54,24 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         surfaceHolder.addCallback(this);
 
         gameLoop = new GameLoop(this, surfaceHolder);
+        this.level = new Level(context, 1);
 
         //Initialize Game Panels
         performance = new Performance(context, gameLoop);
+        playerPoints = new Points(context, 0);
         gameOver = new GameOver(context);
         joystick = new Joystick(275, 650, 70, 40);
 
         //Initialize Game Objects
         SpriteSheet playerSpriteSheet = new SpriteSheet(context, 145, 208, 9, 4, 4, 4, 4, R.drawable.player_sheet);
         SpriteSheet enemySpriteSheet = new SpriteSheet(context, 60, 64, 3, 3, 3, 3, 3, R.drawable.spider1);
-        TileSheet tileSheet = new TileSheet(context);
+        //TileSheet tileSheet = new TileSheet(context);
         Animator playerAnimator = new Animator(playerSpriteSheet.getMovingSpriteMatrix(), 0, 8, 1, 3, 2, 3, 3, 3, 4, 3, 2);
         this.enemyAnimator = new Animator(enemySpriteSheet.getMovingSpriteMatrix(), 0, 2, 0, 2, 1, 2, 2, 2, 3, 2, 2);
 
         //Initialize Tilemap
-        tilemap = new Tilemap(tileSheet);
+        //tilemap = new Tilemap(tileSheet);
+        tilemap = this.level.getTilemap();
 
         //Initialize player
         player = new Player(context, joystick, 2*500, 500, 32, playerAnimator, tilemap);
@@ -151,7 +159,9 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         //Dray GamePanels
         joystick.draw(canvas);
+
         //performance.draw(canvas);
+        playerPoints.draw(canvas);
 
         //Draw GameOver
         if(player.getHealthPoints() <= 0) {
@@ -163,6 +173,12 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
 
         if(player.getHealthPoints() <= 0) {
             return;
+        }
+
+        if(playerPoints.getPlayerPoints() == 10 && level.getCurrentLevel() == 1) {
+            gameLoop.pauseGame();
+            level.changeLevel(2);
+            gameLoop.resumeGame();
         }
 
         joystick.update();
@@ -199,6 +215,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
                 if(Circle.isColliding(spell, enemy)) {
                     iteratorSpell.remove();
                     iteratorEnemy.remove();
+                    playerPoints.increment();
                     break;
                 }
             }
@@ -206,7 +223,7 @@ public class Game extends SurfaceView implements SurfaceHolder.Callback {
         gameDisplay.update();
     }
 
-    public void pause() {
+    public void stop() {
         gameLoop.stopLoop();
     }
 }

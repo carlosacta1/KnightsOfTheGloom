@@ -19,15 +19,18 @@ public class Tilemap {
     private Tile[][] tilemap;
     private TileSheet tileSheet;
     private Bitmap mapBitmap;
+    private int level;
+    private int[][] layout;
 
-    public Tilemap(TileSheet tileSheet) {
+    public Tilemap(TileSheet tileSheet, int level) {
+        this.level = level;
         mapLayout = new MapLayout();
         this.tileSheet = tileSheet;
         initializeTilemap();
     }
 
     private void initializeTilemap() {
-        int[][] layout = mapLayout.getLayout();
+        this.layout = mapLayout.getLayout(level);
         tilemap = new Tile[NUMBER_OF_ROW_TILES][NUMBER_OF_COLUMN_TILES];
         for(int iRow = 0; iRow < NUMBER_OF_ROW_TILES; iRow++) {
             for(int iCol = 0; iCol < NUMBER_OF_COLUMN_TILES; iCol++) {
@@ -68,6 +71,11 @@ public class Tilemap {
                 gameDisplay.DISPLAY_RECT,
                 null
         );
+    }
+
+    public void loadLevel(int newLevel) {
+        this.level = newLevel;
+        initializeTilemap();
     }
 
     public int getTilemapHeightPixels() {

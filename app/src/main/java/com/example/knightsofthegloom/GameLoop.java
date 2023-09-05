@@ -16,6 +16,7 @@ public class GameLoop extends Thread {
     private SurfaceHolder surfaceHolder;
 
     private boolean isRunning = false;
+    private boolean isPaused = false;
     private double averageUPS;
     private double averageFPS;
 
@@ -59,9 +60,11 @@ public class GameLoop extends Thread {
             try {
                 canvas = surfaceHolder.lockCanvas();
                 synchronized (surfaceHolder) {
-                    game.update();
-                    updateCount++;
-                    game.draw(canvas);
+                    if (!isPaused) {
+                        game.update();
+                        updateCount++;
+                        game.draw(canvas);
+                    }
                 }
             } catch (IllegalArgumentException e) {
                 e.printStackTrace();
@@ -77,7 +80,7 @@ public class GameLoop extends Thread {
                 }
             }
 
-            //Pause game loop
+            //Stop game loop
             elapsedTime = System.currentTimeMillis() - startTime;
             sleepTime = (long) (updateCount*UPS_PERIOD - elapsedTime);
             if(sleepTime > 0) {
@@ -116,5 +119,13 @@ public class GameLoop extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void pauseGame() {
+        isPaused = true;
+    }
+
+    public void resumeGame() {
+        isPaused = false;
     }
 }
